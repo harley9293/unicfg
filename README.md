@@ -3,6 +3,7 @@
 unicfg is an open-source library written in Go that aims to parse various configuration file formats and convert them to a unified method linkage interface.
 
 currently supported configuration formats:
+
 - json
 - ini
 
@@ -42,11 +43,11 @@ b := elem.Key("test4").Key("test5").Bool()
 
 // Get array data types
 for i := elem.Key("test6").Next(); i != nil; i = i.Next() {
-	// ...
+ // ...
 }
 
 // Get map data types
 for k, v := range elem.Children() {
-	// ...
+ // ...
 }
 ```
