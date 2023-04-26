@@ -1,5 +1,6 @@
 # unicfg
 ![](https://github.com/harley9293/unicfg/workflows/Go/badge.svg)
+[![codecov](https://codecov.io/gh/harley9293/unicfg/branch/master/graph/badge.svg?token=RIPZ9YPGGD)](https://codecov.io/gh/harley9293/unicfg)
 
 unicfg is an open-source library written in Go that aims to parse various configuration file formats and convert them to a unified method linkage interface.
 
