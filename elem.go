@@ -11,10 +11,6 @@ type Elem struct {
 	next  *Elem
 }
 
-func newElem(v string) *Elem {
-	return &Elem{value: v, child: map[string]*Elem{}}
-}
-
 func (e *Elem) Key(key string) *Elem {
 	keys := strings.Split(key, ".")
 	if len(keys) > 1 {
@@ -78,4 +74,8 @@ func (e *Elem) MustBool(defaultValue bool) bool {
 		return defaultValue
 	}
 	return v
+}
+
+func newElem(v string) *Elem {
+	return &Elem{value: v, child: map[string]*Elem{}}
 }
