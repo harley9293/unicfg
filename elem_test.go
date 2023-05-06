@@ -98,7 +98,16 @@ func TestElem_Children(t *testing.T) {
 func TestElem_Key(t *testing.T) {
 	e := newElem("123")
 	e.child["456"] = newElem("456")
+	e.child["456"].child["789"] = newElem("789")
 	if e.Key("456").String() != "456" {
-		t.Errorf("expected 456, but got %s", e.Children()["456"].String())
+		t.Errorf("expected 456, but got %s", e.Key("456").String())
+	}
+
+	if e.Key("456.789").String() != "789" {
+		t.Errorf("expected 789, but got %s", e.Key("456.789").String())
+	}
+
+	if e.Key("456.789.10").String() != "" {
+		t.Errorf("expected empty, but got %s", e.Key("456.789.10").String())
 	}
 }
