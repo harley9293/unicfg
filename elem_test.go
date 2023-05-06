@@ -23,6 +23,13 @@ func TestElem_Int64(t *testing.T) {
 	}
 }
 
+func TestElem_MustInt64_Nil(t *testing.T) {
+	e := newElem("")
+	if e.MustInt64(123) != 123 {
+		t.Errorf("expected 123, but got %d", e.MustInt64(123))
+	}
+}
+
 func TestElem_MustInt64(t *testing.T) {
 	e := newElem("123")
 	if e.MustInt64(0) != 123 {
@@ -44,6 +51,13 @@ func TestElem_MustString(t *testing.T) {
 	}
 }
 
+func TestElem_MustString_Nil(t *testing.T) {
+	e := newElem("")
+	if e.MustString("0") != "0" {
+		t.Errorf("expected 0, but got %s", e.MustString("0"))
+	}
+}
+
 func TestElem_Bool(t *testing.T) {
 	e := newElem("true")
 	if !e.Bool() {
@@ -55,6 +69,13 @@ func TestElem_MustBool(t *testing.T) {
 	e := newElem("true")
 	if !e.MustBool(false) {
 		t.Errorf("expected true, but got false")
+	}
+}
+
+func TestElem_MustBool_Nil(t *testing.T) {
+	e := newElem("")
+	if e.MustBool(true) != true {
+		t.Errorf("expected true, but got %t", e.MustBool(true))
 	}
 }
 
@@ -70,6 +91,14 @@ func TestElem_Children(t *testing.T) {
 	e := newElem("123")
 	e.child["456"] = newElem("456")
 	if e.Children()["456"].String() != "456" {
+		t.Errorf("expected 456, but got %s", e.Children()["456"].String())
+	}
+}
+
+func TestElem_Key(t *testing.T) {
+	e := newElem("123")
+	e.child["456"] = newElem("456")
+	if e.Key("456").String() != "456" {
 		t.Errorf("expected 456, but got %s", e.Children()["456"].String())
 	}
 }
