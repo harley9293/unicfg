@@ -79,6 +79,27 @@ func TestElem_MustBool_Nil(t *testing.T) {
 	}
 }
 
+func TestElem_Float(t *testing.T) {
+	e := newElem("123.456")
+	if e.Float() != 123.456 {
+		t.Errorf("expected 123.456, but got %f", e.Float())
+	}
+}
+
+func TestElem_MustFloat(t *testing.T) {
+	e := newElem("123.456")
+	if e.MustFloat(0) != 123.456 {
+		t.Errorf("expected 123.456, but got %f", e.MustFloat(0))
+	}
+}
+
+func TestElem_MustFloat_Nil(t *testing.T) {
+	e := newElem("")
+	if e.MustFloat(123.456) != 123.456 {
+		t.Errorf("expected 123.456, but got %f", e.MustFloat(123.456))
+	}
+}
+
 func TestElem_Next(t *testing.T) {
 	e := newElem("123")
 	e.next = newElem("456")

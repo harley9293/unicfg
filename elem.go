@@ -92,6 +92,18 @@ func (e *Elem) MustBool(defaultValue bool) bool {
 	return v
 }
 
+func (e *Elem) Float() float64 {
+	return e.MustFloat(0)
+}
+
+func (e *Elem) MustFloat(defaultValue float64) float64 {
+	v, err := strconv.ParseFloat(e.value, 64)
+	if err != nil {
+		return defaultValue
+	}
+	return v
+}
+
 func newElem(v string) *Elem {
 	return &Elem{value: v, child: map[string]*Elem{}}
 }
