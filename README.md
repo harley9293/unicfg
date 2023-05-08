@@ -53,3 +53,19 @@ for k, v := range elem.Children() {
  // ...
 }
 ```
+
+unicfg also supports adding custom tags, allowing configuration files to be directly parsed into corresponding structures.
+
+```go
+type Person struct {
+    Name    string             `unicfg:"name"`
+    Age     int                `unicfg:"age"`
+    Working bool               `unicfg:"working"`
+    Address map[string]string  `unicfg:"address"`
+    Family  []PersonTestUnicfg `unicfg:"family"`
+    Ignore  int
+}
+
+person := Person{}
+err := Parse("test.json", &person)
+```
