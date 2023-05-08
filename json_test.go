@@ -10,6 +10,7 @@ import (
 type PersonTestUnicfg struct {
 	Name    string             `unicfg:"name"`
 	Age     int                `unicfg:"age"`
+	Working bool               `unicfg:"working"`
 	Address map[string]string  `unicfg:"address"`
 	Family  []PersonTestUnicfg `unicfg:"family"`
 }
@@ -17,6 +18,7 @@ type PersonTestUnicfg struct {
 type PersonTestJson struct {
 	Name    string            `json:"name"`
 	Age     int               `json:"age"`
+	Working bool              `json:"working"`
 	Address map[string]string `json:"address"`
 	Family  []PersonTestJson  `json:"family"`
 }
@@ -37,8 +39,9 @@ func CreateJsonFile() {
 	}
 
 	person3 := PersonTestJson{
-		Name: "person3",
-		Age:  30,
+		Name:    "person3",
+		Age:     30,
+		Working: true,
 		Address: map[string]string{
 			"country": "china",
 		},

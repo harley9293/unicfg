@@ -37,8 +37,10 @@ func (e *Elem) Next() *Elem {
 
 func (e *Elem) Len() int {
 	l := 0
-	for e.Next() != nil {
+	p := e
+	for p.Next() != nil {
 		l++
+		p = p.Next()
 	}
 	return l
 }

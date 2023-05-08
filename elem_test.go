@@ -111,3 +111,12 @@ func TestElem_Key(t *testing.T) {
 		t.Errorf("expected empty, but got %s", e.Key("456.789.10").String())
 	}
 }
+
+func TestElem_Len(t *testing.T) {
+	e := newElem("123")
+	e.next = newElem("456")
+	e.next.next = newElem("789")
+	if e.Len() != 2 {
+		t.Errorf("expected 2, but got %d", e.Len())
+	}
+}

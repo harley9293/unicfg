@@ -27,7 +27,14 @@ func TestNew_JSON(t *testing.T) {
 	}
 }
 
-func TestParse(t *testing.T) {
+func TestParse_Fail(t *testing.T) {
+	err := Parse("", nil)
+	if err == nil {
+		t.Error("expected error, but got nil")
+	}
+}
+
+func TestParse_Success(t *testing.T) {
 	CreateJsonFile()
 	defer RemoveJsonFile()
 
