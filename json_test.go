@@ -13,6 +13,7 @@ type PersonTestUnicfg struct {
 	Working bool               `unicfg:"working"`
 	Address map[string]string  `unicfg:"address"`
 	Family  []PersonTestUnicfg `unicfg:"family"`
+	Ignore  int
 }
 
 type PersonTestJson struct {
