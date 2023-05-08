@@ -28,3 +28,13 @@ func New(configPath string) (*Elem, error) {
 
 	return loader.load(configPath)
 }
+
+func Parse(configPath string, st any) error {
+	e, err := New(configPath)
+	if err != nil {
+		return err
+	}
+
+	e.Parse(st)
+	return nil
+}

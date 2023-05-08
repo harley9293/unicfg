@@ -1,26 +1,52 @@
 package unicfg
 
 import (
+	"encoding/json"
 	"io/ioutil"
 	"os"
 	"testing"
 )
 
-func CreateJsonFile() {
-	jsonString := ""
-	jsonString += "{\n"
-	jsonString += "  \"str_field\": \"hello world!\",\n"
-	jsonString += "  \"int_field\": 1234,\n"
-	jsonString += "  \"int64_field\": \"22222222222\",\n"
-	jsonString += "  \"bool_field\": true,\n"
-	jsonString += "  \"array_field\": [\n"
-	jsonString += "    \"hello\",\n"
-	jsonString += "    \"world\",\n"
-	jsonString += "    \"!\"\n"
-	jsonString += "  ]\n"
-	jsonString += "}\n"
+type PersonTestUnicfg struct {
+	Name    string             `unicfg:"name"`
+	Age     int                `unicfg:"age"`
+	Address map[string]string  `unicfg:"address"`
+	Family  []PersonTestUnicfg `unicfg:"family"`
+}
 
-	ioutil.WriteFile("test.json", []byte(jsonString), 0644)
+type PersonTestJson struct {
+	Name    string            `json:"name"`
+	Age     int               `json:"age"`
+	Address map[string]string `json:"address"`
+	Family  []PersonTestJson  `json:"family"`
+}
+
+func CreateJsonFile() {
+	person1 := PersonTestJson{
+		Name:    "person1",
+		Age:     10,
+		Address: nil,
+		Family:  nil,
+	}
+
+	person2 := PersonTestJson{
+		Name:    "person2",
+		Age:     20,
+		Address: nil,
+		Family:  nil,
+	}
+
+	person3 := PersonTestJson{
+		Name: "person3",
+		Age:  30,
+		Address: map[string]string{
+			"country": "china",
+		},
+		Family: []PersonTestJson{person1, person2},
+	}
+	jsonData, _ := json.Marshal(person3)
+
+	ioutil.WriteFile("test.json", jsonData, 0644)
 }
 
 func RemoveJsonFile() {

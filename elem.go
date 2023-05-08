@@ -1,6 +1,7 @@
 package unicfg
 
 import (
+	"reflect"
 	"strconv"
 	"strings"
 )
@@ -25,8 +26,21 @@ func (e *Elem) Key(key string) *Elem {
 	}
 }
 
+func (e *Elem) Parse(st any) {
+	stValue := reflect.ValueOf(st)
+	e.parse(stValue)
+}
+
 func (e *Elem) Next() *Elem {
 	return e.next
+}
+
+func (e *Elem) Len() int {
+	l := 0
+	for e.Next() != nil {
+		l++
+	}
+	return l
 }
 
 func (e *Elem) Children() map[string]*Elem {
@@ -78,4 +92,48 @@ func (e *Elem) MustBool(defaultValue bool) bool {
 
 func newElem(v string) *Elem {
 	return &Elem{value: v, child: map[string]*Elem{}}
+}
+
+func (e *Elem) parse(v reflect.Value) {
+	if v.Type().Kind() == reflect.Pointer {
+		v = v.Elem()
+	}
+
+	switch v.Type().Kind() {
+	case reflect.Struct:
+		for i := 0; i < v.NumField(); i++ {
+			tag, ok := v.Type().Field(i).Tag.Lookup("unicfg")
+			if !ok {
+				continue
+			}
+			e.Key(tag).parse(v.Field(i))
+		}
+	case reflect.Map:
+		if v.IsNil() {
+			v.Set(reflect.MakeMap(v.Type()))
+		}
+
+		for name, child := range e.Children() {
+			newValue := reflect.New(v.Type().Elem())
+			child.parse(newValue)
+			v.SetMapIndex(reflect.ValueOf(name), newValue.Elem())
+		}
+	case reflect.Array, reflect.Slice:
+		if v.IsNil() {
+			v.Set(reflect.New(v.Type()).Elem())
+		}
+		tmp := reflect.New(v.Type()).Elem()
+		for n := e.Next(); n != nil; n = n.Next() {
+			newValue := reflect.New(v.Type().Elem())
+			n.parse(newValue)
+			tmp = reflect.Append(tmp, newValue.Elem())
+		}
+		v.Set(tmp)
+	case reflect.String:
+		v.SetString(e.String())
+	case reflect.Int, reflect.Int64:
+		v.SetInt(e.Int64())
+	case reflect.Bool:
+		v.SetBool(e.Bool())
+	}
 }
