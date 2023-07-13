@@ -24,6 +24,16 @@ func (j jsonLoader) load(configPath string) (*Elem, error) {
 	return j.parseValue(jsonData), nil
 }
 
+func (j jsonLoader) loadFromBytes(data []byte) (*Elem, error) {
+	var jsonData any
+	err := json.Unmarshal(data, &jsonData)
+	if err != nil {
+		return nil, err
+	}
+
+	return j.parseValue(jsonData), nil
+}
+
 func (j jsonLoader) parseValue(v any) *Elem {
 	startElem := newElem("")
 	switch v.(type) {

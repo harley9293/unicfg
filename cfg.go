@@ -29,6 +29,10 @@ func New(configPath string) (*Elem, error) {
 	return loader.load(configPath)
 }
 
+func NewFromJsonBytes(data []byte) (*Elem, error) {
+	return jsonLoader{}.loadFromBytes(data)
+}
+
 func Parse(configPath string, st any) error {
 	e, err := New(configPath)
 	if err != nil {
